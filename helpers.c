@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "FileSystem.c"
+#include "fileSystem.h"
 
 /**
  * Search a directory for an occupied entry with a given name. Returns true if found.
@@ -31,6 +31,8 @@ bool findEntry(int dir, const char *name, int *sec, int *index) {
 		}
 		s = sector[s].directory.frwd;
 	}
+
+	return false;
 }
 
 /**
@@ -47,4 +49,16 @@ int getSector(int first, int k) {
 	return s;
 }
 
+
+
+// TODO: releases memory for EXIT
+void release(void) {
+	struct nodeType *temp;
+
+    while (head != NULL) {
+        temp = head;
+        head = head->link;
+        free(temp);
+    }
+}
 #endif

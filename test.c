@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "FileSystem.c"
-#include "helpers.c"
-#include "init.c"
-#include "openclose.c"
-#include "fileRead.c"
+#include "fileSystem.h"
 
 /**
  * Add a test file with 2 sectors s1 and s2 since we don't have CREATE command yet
@@ -72,3 +68,4 @@ int main(void)
 	} while (strcmp(cmd, "EXIT") != 0);
 	return 0;
 }
+
