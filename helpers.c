@@ -51,7 +51,6 @@ int getSector(int first, int k) {
 
 
 
-// TODO: releases memory for EXIT
 void release(void) {
 	struct nodeType *temp;
 
@@ -61,4 +60,17 @@ void release(void) {
         free(temp);
     }
 }
+
+void createEntry(int s, int i, char type, const char *name, int link, short size) {
+	sector[s].directory.dir[i].type = type;
+
+    strcpy(sector[s].directory.dir[i].name, name);
+
+    sector[s].directory.dir[i].link = link;
+
+    sector[s].directory.dir[i].size = size;
+
+    sector[s].directory.free--;
+}
+
 #endif

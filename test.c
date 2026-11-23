@@ -25,6 +25,7 @@ void addFile(int i, const char *name, int len, int s1, int s2)
 
 int main(void)
 {
+	initSystem();
 	initDir(0, -1);
 	addFile(0, "A", 600, 5, 6); // file with two sectors
 	addFile(1, "B", 30, 9, 0); // file with one sector
@@ -36,6 +37,7 @@ int main(void)
 
 	printf("=========== SIMPLIFIED FILE SYSTEM =============\n");
 		printf("Currently supports: \n");
+		printf("- CREATE [U/D] [filename]\n");
 		printf("- OPEN [I/O/U] [filename]\n");
 		printf("- CLOSE\n");
 		printf("- READ [number]\n");
@@ -48,7 +50,10 @@ int main(void)
 		// prevent infinite loop if scanf fails
 		if (scanf("%15s", cmd) != 1) {
             strcpy(cmd, "EXIT");
-        } else if (strcmp(cmd, "DIR") == 0) {
+        } else if (strcmp(cmd, "CREATE") == 0) {
+			scanf(" %c %15s", &mode, name);
+			createCmd(mode, name);
+		} else if (strcmp(cmd, "DIR") == 0) {
 			dirCmd();
 		} else if (strcmp(cmd, "CLOSE") == 0) {
 			closeCmd();
@@ -66,6 +71,7 @@ int main(void)
 		}
 		printf("\n");
 	} while (strcmp(cmd, "EXIT") != 0);
+	release();
 	return 0;
 }
 

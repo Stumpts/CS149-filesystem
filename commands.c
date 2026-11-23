@@ -13,13 +13,44 @@
 
 
 
-void createCmd(void) {
-/*
- * TODO: CREATE U creates an empty regular file and adds its entry to the current directory. 
- * Initially the new file has size 0 and link 0. Its first data sector is allocated when data is written. 
- * CREATE D allocates and initializes a directory sector and adds an entry of type D to the current directory. 
- * Duplicate names in the same directory must be rejected. If the current directory has no free entries, extend it with another directory sector when space is available.
- */
+void createCmd(char mode, const char *name) { //TODO NEED TO STILL FIGURE OUT EXTENDING
+	int sec, index;
+
+	if (findEntry(currDir, name, &sec, &index)) {
+		printf("ERROR: directory already contains file with same name\n");
+		return;
+	}
+	if (mode != 'U' && mode != 'D') {
+		printf("ERROR: Invalid mode. Must be U or D\n");
+		return;
+	}
+
+	int s = currDir;
+    while (s != -1 && sector[s].directory.free == 0) {
+        s = sector[s].directory.frwd;
+    }
+
+	int i;
+    for (i = 0; i < 25; i++) {
+        if (sector[s].directory.dir[i].type == 'F') {
+            break;
+        }
+    }
+
+	if (mode == 'U') {
+		createEntry(s, i, 'U', name, 0, 0);
+	}
+	else {
+		int newSector = removeSector();
+
+		if (newSector == -1) {
+			printf("ERROR: No free sectors.\n");
+			return;
+		}
+
+		initDir(newSector, -1);
+		createEntry(s, i, 'D', name, newSector, 0);
+	}
 }
 
 void deleteCmd(void) {

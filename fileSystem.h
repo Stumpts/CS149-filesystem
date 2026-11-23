@@ -64,8 +64,7 @@ void initDir(int s, int back);
 bool findEntry(int dir, const char *name, int *sec, int *index);
 int getSector(int first, int k);
 void release(void);
-
-
+void createEntry(int s, int i, char type, const char *name, int link, short size);
 
 //free sector funcs
 void buildList(void);
@@ -73,17 +72,17 @@ void insert(int sectorNum);
 int removeSector(void);
 
 //commands
-void createCmd(void);
-void deleteCmd(void);
-void openCmd(char mode, const char *name);
-void closeCmd(void);
-void readCmd(int n);
-void writeCmd(void);
-void seekCmd(int p);
-void dirCmd(void);
-void cdCmd(void);
-void rootCmd(void);
-void exitCmd(void);
-void runCommandLoop(void);
+void createCmd(char mode, const char *name); //almost done need to do extension
+void deleteCmd(void); //not done
+void openCmd(char mode, const char *name); //done
+void closeCmd(void); //done
+void readCmd(int n); //done
+void writeCmd(void); //not done
+void seekCmd(int p); //done
+void dirCmd(void); //done
+void cdCmd(void); //not done
+void rootCmd(void); //done
+void exitCmd(void); //done
+void runCommandLoop(void); //no done
 
 #endif
